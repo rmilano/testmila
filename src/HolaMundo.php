@@ -2,6 +2,6 @@
 
 class HolaMundo {
     public function saludar() {
-        return "Hola Mundo";
+        return "Hola Perfect Mundo ";
     }
 }
