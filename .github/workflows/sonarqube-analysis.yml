@@ -1,0 +1,46 @@
+name: SonarQube Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sonarQube:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+
+      - name: Install SonarScanner
+        run: |
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+          unzip sonar-scanner-cli-4.6.2.2472-linux.zip -d $HOME
+          export PATH="$HOME/sonar-scanner-4.6.2.2472-linux/bin:$PATH"
+
+      - name: Run SonarQube analysis
+        env:
+          SONAR_TOKEN: squ_f30ca774b08ae33c6654194693926eaad5e00264
+          SONAR_HOST_URL: http://localhost:9000
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=nombre-del-proyecto \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=$SONAR_HOST_URL \
+            -Dsonar.login=$SONAR_TOKEN
