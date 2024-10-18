@@ -1,40 +1,20 @@
-name: SonarQube Analysis
-
+name: Build
 on:
   push:
     branches:
       - main
   pull_request:
-    branches:
-      - main
-
+    types: [opened, synchronize, reopened]
 jobs:
-  sonarQube:
-    runs-on: windows-latest
-
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
+      - uses: actions/checkout@v4
         with:
-          php-version: '8.1'
-
-      - name: Install dependencies
-        run: |
-          composer install
-
-      - name: Download SonarScanner
-        run: |
-          Invoke-WebRequest -Uri https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-windows.zip -OutFile sonar-scanner.zip
-          Expand-Archive -Path sonar-scanner.zip -DestinationPath $env:USERPROFILE\sonar-scanner
-          echo "$env:USERPROFILE\sonar-scanner\sonar-scanner-4.6.2.2472-windows\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
-
-      - name: Run SonarQube analysis
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: |
-          sonar-scanner 
-
