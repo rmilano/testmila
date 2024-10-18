@@ -36,5 +36,9 @@ jobs:
           SONAR_TOKEN: squ_f30ca774b08ae33c6654194693926eaad5e00264
           SONAR_HOST_URL: http://localhost:9000
         run: |
-          sonar-scanner -Dsonar.projectKey=testmila -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_f30ca774b08ae33c6654194693926eaad5e00264
+          mono sonar-scanner \
+            -Dsonar.projectKey=testmila \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.login=squ_f30ca774b08ae33c6654194693926eaad5e00264
 
