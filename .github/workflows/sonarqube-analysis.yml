@@ -10,29 +10,26 @@ on:
 
 jobs:
   sonarQube:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
         with:
-          distribution: 'adopt'
-          java-version: '11'
+          php-version: '8.1'
 
-      - name: Cache SonarQube packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-
-      - name: Install SonarScanner
+      - name: Install dependencies
         run: |
-          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-          unzip sonar-scanner-cli-4.6.2.2472-linux.zip -d $HOME
-          echo "export PATH=$HOME/sonar-scanner-4.6.2.2472-linux/bin:\$PATH" >> $GITHUB_ENV
+          composer install
+
+      - name: Download SonarScanner
+        run: |
+          Invoke-WebRequest -Uri https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-windows.zip -OutFile sonar-scanner.zip
+          Expand-Archive -Path sonar-scanner.zip -DestinationPath $env:USERPROFILE\sonar-scanner
+          echo "$env:USERPROFILE\sonar-scanner\sonar-scanner-4.6.2.2472-windows\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
 
       - name: Run SonarQube analysis
         env:
