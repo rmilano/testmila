@@ -2,5 +2,5 @@ projectKey=testmila
 serverUrl=http://localhost:9000
 serverVersion=10.7.0.96327
 dashboardUrl=http://localhost:9000/dashboard?id=testmila
-ceTaskId=615f6535-b8db-4551-90ef-219b0e4b1ac0
-ceTaskUrl=http://localhost:9000/api/ce/task?id=615f6535-b8db-4551-90ef-219b0e4b1ac0
+ceTaskId=9fe20426-9268-4672-8b7c-e3bd5d065412
+ceTaskUrl=http://localhost:9000/api/ce/task?id=9fe20426-9268-4672-8b7c-e3bd5d065412

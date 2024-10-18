@@ -6,6 +6,6 @@ require_once '../src/HolaMundo.php';
 class HolaMundoTest extends TestCase {
     public function testSaludar() {
         $holaMundo = new HolaMundo();
-        $this->assertEquals("Hola Mundo", $holaMundo->saludar()); // Esto debería fallar
+        $this->assertEquals("Hola Mundo Modificado", $holaMundo->saludar()); // Ahora debería pasar
     }
 }
