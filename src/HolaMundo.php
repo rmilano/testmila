@@ -2,6 +2,6 @@
 
 class HolaMundo {
     public function saludar() {
-        return "Hola Mundo  x cambiado el token";
+        return "Hola Mundo he cambiado el token";
     }
 }
